@@ -204,7 +204,7 @@ export default function Home() {
 
   return (
     <div className="bg-[#f9f9ff] text-[#111c2d] font-sans w-full min-h-full">
-      <main className="max-w-7xl mx-auto px-6 py-12 relative">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 relative">
         
         {/* Notifikasi Sukses */}
         {successMessage && (
@@ -215,9 +215,9 @@ export default function Home() {
         )}
 
         {/* Hero Section */}
-        <section className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[#111c2d] mb-4 tracking-tight">Perjalanan Awal</h1>
-          <p className="text-lg text-[#40493d] max-w-2xl mx-auto leading-relaxed">
+        <section className="text-center mb-10 md:mb-16">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-[#111c2d] mb-2 md:mb-4 tracking-tight">Perjalanan Awal</h1>
+          <p className="text-sm md:text-lg text-[#40493d] max-w-2xl mx-auto leading-relaxed">
             Sejarah garis keturunan keluarga.
           </p>
         </section>
@@ -231,29 +231,29 @@ export default function Home() {
           ) : milestones.length === 0 ? (
             <div className="text-center py-20 text-gray-500 font-medium">Belum ada data riwayat keluarga di database.</div>
           ) : (
-            <div className="space-y-16 relative">
+            <div className="space-y-6 md:space-y-16 relative">
               {milestones.map((item) => (
-                <div key={item.id} className="flex flex-col md:flex-row items-center justify-between w-full gap-8 md:gap-0">
+                <div key={item.id} className="flex flex-col md:flex-row items-center justify-between w-full gap-4 md:gap-0">
                   
                   {/* Bagian Kartu Teks */}
-                  <div className={`w-full md:w-[45%] ${item.alignLeft ? 'order-2 md:order-1' : 'order-3 md:order-1'}`}>
-                    <div className="bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-sm border border-gray-200/60 relative group">
+                  <div className={`w-full md:w-[45%] ${item.alignLeft ? 'order-2 md:order-1' : 'order-2 md:order-3'}`}>
+                    <div className="bg-white/95 backdrop-blur-md p-5 md:p-8 rounded-2xl shadow-sm border border-gray-200/60 relative group">
                       
                       <button 
                         onClick={() => handleEditClick(item)}
-                        className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-[#0d631b] hover:text-white text-gray-600 rounded-xl transition-all shadow-xs flex items-center gap-1 text-xs font-semibold cursor-pointer"
+                        className="absolute top-3 right-3 md:top-4 md:right-4 p-1.5 md:p-2 bg-gray-100 hover:bg-[#0d631b] hover:text-white text-gray-600 rounded-xl transition-all shadow-xs flex items-center gap-1 text-xs font-semibold cursor-pointer"
                         title="Edit Riwayat"
                       >
                         <span className="material-symbols-outlined text-sm">edit</span>
-                        <span>Edit</span>
+                        <span className="hidden sm:inline">Edit</span>
                       </button>
 
-                      <div className="mb-3">
+                      <div className="mb-2 md:mb-3">
                         <span className="bg-[#91f78e]/30 text-[#00731e] px-3 py-1 rounded-full text-xs font-bold">{item.tag}</span>
                       </div>
-                      <h3 className="text-2xl font-bold text-[#111c2d] mb-3 pr-16">{item.title}</h3>
-                      <p className="text-[#40493d] mb-4 leading-relaxed">{item.description}</p>
-                      <div className="flex items-center gap-2 text-[#0d631b] font-semibold text-sm">
+                      <h3 className="text-xl md:text-2xl font-bold text-[#111c2d] mb-2 md:mb-3 pr-12 md:pr-16">{item.title}</h3>
+                      <p className="text-xs md:text-sm text-[#40493d] mb-3 md:mb-4 leading-relaxed">{item.description}</p>
+                      <div className="flex items-center gap-2 text-[#0d631b] font-semibold text-xs md:text-sm">
                         <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
                         <span>{item.location}</span>
                       </div>
@@ -261,12 +261,12 @@ export default function Home() {
                   </div>
 
                   {/* Titik Ikon Tengah */}
-                  <div className="relative flex items-center justify-center w-12 h-12 bg-[#0d631b] rounded-full z-10 border-4 border-[#f9f9ff] shadow-md order-1 md:order-2">
+                  <div className="relative hidden md:flex items-center justify-center w-12 h-12 bg-[#0d631b] rounded-full z-10 border-4 border-[#f9f9ff] shadow-md order-1 md:order-2">
                     <span className="material-symbols-outlined text-white text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon || 'history'}</span>
                   </div>
 
-                  {/* Bagian Gambar */}
-                  <div className={`w-full md:w-[45%] ${item.alignLeft ? 'order-3' : 'order-2 md:order-3'}`}>
+                  {/* Bagian Gambar (Disembunyikan di HP / Tampil di Desktop) */}
+                  <div className={`hidden md:block w-full md:w-[45%] ${item.alignLeft ? 'order-3' : 'order-1'}`}>
                     <div className="w-full h-56 rounded-2xl overflow-hidden shadow-sm border border-gray-200/60">
                       <img 
                         className="w-full h-full object-cover" 
@@ -283,20 +283,19 @@ export default function Home() {
         </div>
 
         {/* Call to Action */}
-        <div className="mt-20 p-10 bg-[#2e7d32] text-white rounded-3xl text-center shadow-lg">
-          <h2 className="text-3xl font-bold mb-3">Punya Cerita untuk Dibagikan?</h2>
-          <p className="text-base mb-8 max-w-xl mx-auto opacity-90 leading-relaxed">
+        <div className="mt-12 md:mt-20 p-6 md:p-10 bg-[#2e7d32] text-white rounded-3xl text-center shadow-lg">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-3">Punya Cerita untuk Dibagikan?</h2>
+          <p className="text-xs md:text-base mb-6 md:mb-8 max-w-xl mx-auto opacity-90 leading-relaxed">
             Setiap generasi menambahkan babak baru. Kontribusikan catatan, foto, dan kenangan Anda untuk membantu menumbuhkan sejarah kolektif kita.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button 
               onClick={handleAddClick} 
-              className="bg-white text-[#0d631b] px-8 py-3.5 rounded-xl font-bold hover:bg-opacity-90 transition-all flex items-center gap-2 cursor-pointer shadow-md"
+              className="w-full sm:w-auto bg-white text-[#0d631b] px-6 md:px-8 py-3.5 rounded-xl font-bold hover:bg-opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md text-xs md:text-sm"
             >
               <span className="material-symbols-outlined">add_circle</span>
               Tambah Riwayat
             </button>
-            
           </div>
         </div>
       </main>
@@ -542,16 +541,16 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="bg-[#d8e3fb]/40 border-t border-gray-200 mt-20">
+      <footer className="bg-[#d8e3fb]/40 border-t border-gray-200 mt-12 md:mt-20">
         <div className="flex flex-col md:flex-row justify-between items-center px-6 py-12 max-w-7xl mx-auto w-full">
-          <div className="mb-6 md:mb-0">
+          <div className="mb-6 md:mb-0 text-center md:text-left">
             <div className="text-lg font-bold text-[#0d631b] mb-1">AncestryFlow</div>
-            <p className="text-sm text-[#40493d]">© 2026 AncestryFlow. Menjaga warisan untuk generasi mendatang.</p>
+            <p className="text-xs md:text-sm text-[#40493d]">© 2026 AncestryFlow. Menjaga warisan untuk generasi mendatang.</p>
           </div>
           <div className="flex flex-wrap justify-center gap-6">
-            <a className="text-sm text-[#40493d] hover:text-[#0d631b] transition-all hover:underline" href="#">Kebijakan Privasi</a>
-            <a className="text-sm text-[#40493d] hover:text-[#0d631b] transition-all hover:underline" href="#">Ketentuan Layanan</a>
-            <a className="text-sm text-[#40493d] hover:text-[#0d631b] transition-all hover:underline" href="#">Hubungi Kami</a>
+            <a className="text-xs md:text-sm text-[#40493d] hover:text-[#0d631b] transition-all hover:underline" href="#">Kebijakan Privasi</a>
+            <a className="text-xs md:text-sm text-[#40493d] hover:text-[#0d631b] transition-all hover:underline" href="#">Ketentuan Layanan</a>
+            <a className="text-xs md:text-sm text-[#40493d] hover:text-[#0d631b] transition-all hover:underline" href="#">Hubungi Kami</a>
           </div>
         </div>
       </footer>
