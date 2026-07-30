@@ -403,20 +403,20 @@ export default function Members() {
         </div>
       )}
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-6">
           <div>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-[#111c2d] mb-3 tracking-tight">Anggota Keluarga</h1>
-            <p className="text-lg text-[#40493d] max-w-2xl leading-relaxed">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-[#111c2d] mb-2 md:mb-3 tracking-tight">Anggota Keluarga</h1>
+            <p className="text-sm md:text-lg text-[#40493d] max-w-2xl leading-relaxed">
               Daftar lengkap seluruh silsilah dan anggota keluarga besar dari berbagai generasi. Klik pada kartu untuk melihat detail profil.
             </p>
           </div>
           <div>
             <button 
               onClick={() => handleProtectedAction('add')}
-              className="flex items-center gap-2 bg-[#0d631b] text-white px-6 py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-all shadow-sm cursor-pointer"
+              className="w-full md:w-auto flex items-center justify-center gap-2 bg-[#0d631b] text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-[#0a4d15] transition-all shadow-sm cursor-pointer"
             >
               <span className="material-symbols-outlined text-lg">person_add</span>
               Tambah Anggota
@@ -440,11 +440,11 @@ export default function Members() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4 w-full md:w-auto justify-end">
-            <div className="relative">
+            <div className="relative w-full md:w-auto">
               <select
                 value={selectedGeneration}
                 onChange={(e) => setSelectedGeneration(e.target.value)}
-                className="px-5 py-3 bg-[#f0f3ff]/50 border border-gray-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:border-[#0d631b] cursor-pointer"
+                className="w-full md:w-auto px-5 py-3 bg-[#f0f3ff]/50 border border-gray-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none focus:border-[#0d631b] cursor-pointer"
               >
                 <option value="All">Semua Generasi</option>
                 <option value="1st Generation">Generasi 1</option>
@@ -457,7 +457,7 @@ export default function Members() {
         </div>
 
         {/* Alphabet Filter Bar A - Z */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-3 mb-10 bg-white p-3 rounded-2xl shadow-sm border border-gray-200/60">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-3 mb-8 md:mb-10 bg-white p-3 rounded-2xl shadow-sm border border-gray-200/60 no-scrollbar">
           <button
             onClick={() => setSelectedLetter("All")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 ${
@@ -479,7 +479,7 @@ export default function Members() {
           ))}
         </div>
 
-        {/* Member Grid List */}
+        {/* Member Grid List (Dioptimalkan agar compact dan seragam seperti Galeri di HP) */}
         {loading ? (
           <div className="text-center py-20 text-gray-500 font-medium">Memuat data anggota dari Firebase...</div>
         ) : filteredMembers.length === 0 ? (
@@ -487,7 +487,7 @@ export default function Members() {
             Tidak ada anggota keluarga yang cocok dengan kriteria pencarian.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
             {filteredMembers.map((member) => {
               const displayName = member.fullName || member.name || "-";
               const displayGen = member.generation || "-";
@@ -501,50 +501,35 @@ export default function Members() {
                 <div 
                   key={member.id} 
                   onClick={() => handleCardClick(member)}
-                  className="bg-white rounded-3xl shadow-sm border border-gray-200/60 flex flex-col items-center text-center hover:shadow-md transition-all cursor-pointer group overflow-hidden pb-6"
+                  className="bg-white rounded-2xl shadow-sm border border-gray-200/60 overflow-hidden cursor-pointer group transition-all duration-300 hover:shadow-md flex flex-col"
                 >
-                  {/* Foto Card Persegi Panjang dengan Sudut Melengkung di Atas */}
-                  <div className="w-full h-48 mb-4 overflow-hidden bg-gray-100">
+                  {/* Kotak Gambar Seragam (Compact seperti Galeri) */}
+                  <div className="h-32 md:h-48 w-full overflow-hidden bg-gray-100 relative shrink-0">
                     <img 
                       src={displayImg} 
                       alt={displayName}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
 
-                  {/* Badge Generasi */}
-                  <div className="mb-2 px-6">
-                    <span className="text-xs font-bold text-[#00731e] bg-[#91f78e]/30 px-3 py-1 rounded-full">
-                      {displayGen}
-                    </span>
-                  </div>
-
-                  {/* Nama */}
-                  <h3 className="text-xl font-bold text-[#111c2d] mb-2 px-6">{displayName}</h3>
-
-                  {/* Detail Tanggal (User Friendly & Label Wafat jika Deceased) */}
-                  <div className="w-full space-y-1.5 mb-6 px-6 text-sm text-[#40493d]">
-                    <div className="flex flex-col items-center justify-center">
-                      {isDeceased ? (
-                        <div className="flex flex-col text-center">
-                          <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Wafat</span>
-                          <span className="font-medium text-slate-800">{birthStr} - {deathStr}</span>
-                        </div>
-                      ) : (
-                        <span className="font-medium text-slate-800">{birthStr} - Sekarang</span>
-                      )}
+                  {/* Info Text Bawah */}
+                  <div className="p-3 md:p-4 flex flex-col flex-1 justify-between">
+                    <div>
+                      <span className="text-[9px] md:text-[10px] font-bold text-[#0d631b] bg-[#0d631b]/10 px-2 py-1 rounded w-fit uppercase tracking-wider mb-1.5 inline-block">
+                        {displayGen}
+                      </span>
+                      <h3 className="text-slate-800 text-xs md:text-sm font-bold line-clamp-2 leading-snug mb-1">
+                        {displayName}
+                      </h3>
+                      <p className="text-[10px] md:text-xs text-slate-500 line-clamp-1">
+                        {isDeceased ? `Wafat: ${birthStr}` : birthStr}
+                      </p>
                     </div>
-                    <div className="flex items-center justify-center gap-2 pt-1">
-                      <span className="material-symbols-outlined text-base text-gray-400 shrink-0">location_on</span>
-                      <span>{displayLoc}</span>
-                    </div>
-                  </div>
 
-                  {/* Tombol Lihat Detail */}
-                  <div className="w-full px-6">
-                    <button className="w-full py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-[#111c2d] group-hover:bg-[#0d631b] group-hover:text-white group-hover:border-[#0d631b] transition-all shadow-xs">
-                      Lihat Detail
-                    </button>
+                    <div className="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between text-[10px] md:text-xs text-slate-400">
+                      <span className="truncate max-w-[100px]">{displayLoc}</span>
+                      <span className="text-[#0d631b] font-semibold group-hover:underline">Detail</span>
+                    </div>
                   </div>
                 </div>
               );
@@ -655,7 +640,7 @@ export default function Members() {
       {showProfileModal && selectedMember && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
           <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden relative animate-in zoom-in-95 duration-200">
-            
+             
             {/* Modal Header / Close Button */}
             <div className="px-6 py-4 flex justify-end shrink-0 border-b border-gray-100 bg-slate-50">
               <button 
@@ -668,11 +653,10 @@ export default function Members() {
 
             {/* Modal Body (Scrollable Details) */}
             <div className="p-8 overflow-y-auto flex-1 space-y-6 text-sm text-[#40493d]">
-              
-              {/* HEADER PROFIL PERSIS SEPERTI REFERENSI GAMBAR */}
+               
+              {/* HEADER PROFIL */}
               <div className="flex flex-col sm:flex-row items-center sm:items-center gap-8 bg-white py-2">
-                
-                {/* Foto Profil Lingkaran Besar di Kiri dengan Badge Centang Hijau */}
+                 
                 <div className="relative shrink-0">
                   <img 
                     src={selectedMember.profilePhoto || selectedMember.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"} 
@@ -684,7 +668,6 @@ export default function Members() {
                   </div>
                 </div>
 
-                {/* Informasi di Kanan (Badge Generasi, Nama Besar, Bio Singkat) */}
                 <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
                   <div className="mb-2">
                     <span className="text-xs font-bold text-[#00731e] bg-[#91f78e]/30 px-3.5 py-1 rounded-full uppercase tracking-wider">
@@ -816,7 +799,7 @@ export default function Members() {
             <div className="w-14 h-14 rounded-full bg-[#0d631b]/10 text-[#0d631b] flex items-center justify-center mb-4 shadow-inner">
               <span className="material-symbols-outlined text-[28px]">lock</span>
             </div>
-            
+             
             <h3 className="text-lg font-bold text-slate-800 mb-1">
               Verifikasi Akses
             </h3>
@@ -863,11 +846,11 @@ export default function Members() {
         </div>
       )}
 
-      {/* 3. MODAL KOMPREHENSIF ADD / EDIT MEMBER (FORM LENGKAP DENGAN PILIHAN GENERASI) */}
+      {/* 3. MODAL KOMPREHENSIF ADD / EDIT MEMBER */}
       {showAddModal && (
         <div className="fixed inset-0 z-[70] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            
+             
             {/* Modal Header */}
             <div className="px-8 py-6 border-b border-gray-200 flex items-center justify-between bg-slate-50 shrink-0">
               <div className="flex items-center gap-3">
@@ -890,8 +873,8 @@ export default function Members() {
             {/* Modal Body (Scrollable) */}
             <div className="p-8 overflow-y-auto flex-1 space-y-6">
               <form onSubmit={handleFormSubmit} id="addMemberForm" className="space-y-6">
-                
-                {/* ACCORDION 1: BASIC INFORMATION (DITAMBAHKAN PILIHAN GENERASI) */}
+                 
+                {/* ACCORDION 1: BASIC INFORMATION */}
                 <div className="border border-gray-200 rounded-2xl overflow-hidden shadow-xs">
                   <button 
                     type="button" 
